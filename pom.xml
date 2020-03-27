@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.icon</groupId>
-	<artifactId>testeWsSpringBoot</artifactId>
+	<artifactId>restWithSpringBootUdemy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>testeWsSpringBoot</name>
+	<name>restWithSpringBootUdemy</name>
 	<description>Demo project for Spring Boot</description>
 
 	<packaging>jar</packaging>
