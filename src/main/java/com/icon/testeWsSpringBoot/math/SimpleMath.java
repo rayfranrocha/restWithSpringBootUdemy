@@ -1,14 +1,17 @@
 package com.icon.testeWsSpringBoot.math;
 
-import com.icon.testeWsSpringBoot.exception.UnsuportedMathOperationException;
+import org.springframework.stereotype.Service;
+
+import com.icon.testeWsSpringBoot.exception.BadRequestException;
 import com.icon.testeWsSpringBoot.utils.NumberConverter;
 
+@Service
 public class SimpleMath {
 
 	public Double sum(String numberOne, String numberTwo) {
 
 		if (!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new BadRequestException("Please set a numeric value!");
 		}
 
 		return NumberConverter.covertToDouble(numberOne) + NumberConverter.covertToDouble(numberTwo);
@@ -17,7 +20,7 @@ public class SimpleMath {
 	public Double subtraction(String numberOne, String numberTwo) {
 
 		if (!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new BadRequestException("Please set a numeric value!");
 		}
 
 		return NumberConverter.covertToDouble(numberOne) - NumberConverter.covertToDouble(numberTwo);
@@ -26,7 +29,7 @@ public class SimpleMath {
 	public Double multiplication(String numberOne, String numberTwo) {
 
 		if (!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new BadRequestException("Please set a numeric value!");
 		}
 
 		return NumberConverter.covertToDouble(numberOne) * NumberConverter.covertToDouble(numberTwo);
@@ -35,7 +38,7 @@ public class SimpleMath {
 	public Double division(String numberOne, String numberTwo) {
 
 		if (!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new BadRequestException("Please set a numeric value!");
 		}
 
 		return NumberConverter.covertToDouble(numberOne) / NumberConverter.covertToDouble(numberTwo);
@@ -44,7 +47,7 @@ public class SimpleMath {
 	public Double mean(String numberOne, String numberTwo) {
 
 		if (!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new BadRequestException("Please set a numeric value!");
 		}
 
 		return (NumberConverter.covertToDouble(numberOne) + NumberConverter.covertToDouble(numberTwo)) / 2;
@@ -53,7 +56,7 @@ public class SimpleMath {
 	public Double squareRoot(String numberOne) {
 
 		if (!NumberConverter.isNumeric(numberOne)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new BadRequestException("Please set a numeric value!");
 		}
 
 		return (Double) Math.sqrt(NumberConverter.covertToDouble(numberOne));

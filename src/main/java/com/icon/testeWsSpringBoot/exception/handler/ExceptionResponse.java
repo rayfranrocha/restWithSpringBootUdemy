@@ -1,4 +1,4 @@
-package com.icon.testeWsSpringBoot.exception;
+package com.icon.testeWsSpringBoot.exception.handler;
 
 import java.io.Serializable;
 import java.util.Date;

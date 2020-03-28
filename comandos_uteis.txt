@@ -1,0 +1,8 @@
+--mostra o processo q esta escutando na porta 8080
+lsof -i :8080
+
+--mata um determinado processo
+kill -9 <PID>
+
+--lista os processo que tem a 'POSTGRES'
+ps auxwww | grep postgres
