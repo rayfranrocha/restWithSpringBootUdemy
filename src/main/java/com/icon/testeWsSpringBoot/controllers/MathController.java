@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.icon.testeWsSpringBoot.exception.BadRequestException;
 import com.icon.testeWsSpringBoot.math.SimpleMath;
-import com.icon.testeWsSpringBoot.utils.NumberConverter;
 
 @RestController
 public class MathController {
