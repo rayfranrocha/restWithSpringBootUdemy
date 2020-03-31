@@ -17,7 +17,7 @@ import com.icon.testeWsSpringBoot.model.Person;
 import com.icon.testeWsSpringBoot.model.PersonServico;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person")
 public class PersonController {
 
 	@Autowired

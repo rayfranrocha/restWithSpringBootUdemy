@@ -8,7 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 @Entity
+@JsonPropertyOrder({"id", "nome","endereco","gender" })
 public class Person implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -18,11 +23,20 @@ public class Person implements Serializable {
 	private Long id;
 	
 	@Column(nullable = false)
+	@JsonIgnore
 	private String firstName;
 	
+	@JsonIgnore
 	private String lastName;
+
+	@JsonProperty(value = "endereco")
 	private String address;
+	
 	private String gender;
+	
+	public String getNome() {
+		return firstName + " " + lastName;
+	}
 
 	public Person() {
 	}
