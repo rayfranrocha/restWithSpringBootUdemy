@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,6 +42,18 @@ public class PersonController {
 	@PutMapping()
 	public Person update(@RequestBody Person person) throws Exception {
 		return personServico.update(person);
+	}
+
+	@PatchMapping("/enable/{id}")
+	public Person enabledDisablePerson(@PathVariable("id") Long id) {
+		Person p = personServico.enablePerson(id);
+		return p;
+	}
+
+	@PatchMapping("/disable/{id}")
+	public Person disableDisablePerson(@PathVariable("id") Long id) {
+		Person p = personServico.disablePerson(id);
+		return p;
 	}
 
 	@DeleteMapping("/{id}")

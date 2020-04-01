@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.icon.testeWsSpringBoot.exception.BadRequestException;
 import com.icon.testeWsSpringBoot.model.repository.IPersonRepository;
@@ -56,6 +57,17 @@ public class PersonServico {
 
 		repository.save(person);
 		return findById(person.getId());
+	}
+	
+	@Transactional
+	public Person enablePerson(Long id) {
+		repository.enablePerson(id);
+		return repository.findById(id).get();
+	}
+	@Transactional
+	public Person disablePerson(Long id) {
+		repository.disablePerson(id);
+		return repository.findById(id).get();
 	}
 
 }
