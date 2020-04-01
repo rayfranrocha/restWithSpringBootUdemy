@@ -3,6 +3,7 @@ package com.icon.testeWsSpringBoot.model;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +33,20 @@ public class PersonServico {
 	}
 
 	public List<Person> findAll() {
-
 		List<Person> ll = (List<Person>) repository.findAll();
+		return ll;
+	}
+
+	public List<Person> findAll(Pageable pageable) {
+
+		List<Person> ll = repository.findAll(pageable).getContent();
+
+		return ll;
+	}
+
+	public List<Person> findAllByName(String name, Pageable pageable) {
+
+		List<Person> ll = repository.findPersonByName(name, pageable).getContent();
 
 		return ll;
 	}
@@ -58,12 +71,13 @@ public class PersonServico {
 		repository.save(person);
 		return findById(person.getId());
 	}
-	
+
 	@Transactional
 	public Person enablePerson(Long id) {
 		repository.enablePerson(id);
 		return repository.findById(id).get();
 	}
+
 	@Transactional
 	public Person disablePerson(Long id) {
 		repository.disablePerson(id);
