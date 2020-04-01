@@ -1,6 +1,7 @@
 package com.icon.testeWsSpringBoot.model.security;
 
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class JWTTokenProvider {
 	private String secretKey;
 
 	@Value("${security.jwt.token.expire-length:3600000}")
-	private long validityInMilliseconds = 3600000; // 1h
+	private int validityInMilliseconds = 3600000; // 1h
 
 	@Autowired
 	private UserDetailsService uds;
@@ -44,7 +45,10 @@ public class JWTTokenProvider {
 		Claims cc = Jwts.claims().setSubject(username);
 		cc.put("roles", roles);
 		Date now = new Date();
-		Date validity = new Date(now.getDate() + validityInMilliseconds);
+		
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MILLISECOND, validityInMilliseconds);
+		Date validity = c.getTime();
 
 		return Jwts.builder().setClaims(cc).setIssuedAt(now).setExpiration(validity)
 				.signWith(SignatureAlgorithm.HS256, secretKey).compact();
@@ -60,28 +64,28 @@ public class JWTTokenProvider {
 	private String getUsername(String token) {
 		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 	}
-	
+
 	public String resolveToken(HttpServletRequest req) {
 		String bearerToken = req.getHeader("Authorization");
-		if(bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7,bearerToken.length());
-		} 
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7, bearerToken.length());
+		}
 		return null;
 	}
-	
+
 	public boolean validateToken(String token) {
 		try {
 
 			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-			
+
 			if (claims.getBody().getExpiration().before(new Date())) {
 				return false;
 			}
-			
+
 			return true;
 		} catch (Exception e) {
 			throw new BadRequestException("Token invalido ou expirado!");
 		}
-		
+
 	}
 }
