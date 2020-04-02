@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,27 +30,45 @@ public class FileStorageService {
 			throw new FileStorageException("Não foi possivel criar o diretorio: " + this.finalStorageLocation, e);
 		}
 	}
-	
-	public String getFileName(MultipartFile file) {
-		
-		
+
+	public String salvaArquivo(MultipartFile file) {
+
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		System.out.println("filename:"+fileName);
+		System.out.println("filename:" + fileName);
 
 		try {
-			
-			if(fileName.contains("..")) {
-				throw new FileStorageException("Não foi possivel armazenar o arquivo, pois o arquivo possui caracteres invalidos (ex. '..': " + fileName);
+
+			if (fileName.contains("..")) {
+				throw new FileStorageException(
+						"Não foi possivel armazenar o arquivo, pois o arquivo possui caracteres invalidos (ex. '..': "
+								+ fileName);
 			}
-			
+
 			Path targetLocation = this.finalStorageLocation.resolve(fileName);
 			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-			System.out.println("target: "+targetLocation);
-	
+			System.out.println("target: " + targetLocation);
+
 			return fileName;
 		} catch (Exception e) {
 			throw new FileStorageException("Não foi possivel armazenar o arquivo: " + fileName, e);
+		}
+	}
+
+	public Resource loadFileAsResource(String fileName) {
+
+		try {
+			Path filePath = this.finalStorageLocation.resolve(fileName).normalize();
+
+			Resource resource = new UrlResource(filePath.toUri());
+
+			if (resource.exists()) {
+				return resource;
+			} else {
+				throw new MyFileStorageException("Arquivo inexistente.");
+			}
+		} catch (Exception e) {
+			throw new MyFileStorageException("Arquivo inexistente.", e);
 		}
 	}
 
