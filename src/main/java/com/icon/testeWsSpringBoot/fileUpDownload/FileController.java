@@ -1,5 +1,9 @@
 package com.icon.testeWsSpringBoot.fileUpDownload;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,10 +19,9 @@ public class FileController {
 
 	@Autowired
 	private FileStorageService fileStorageService;
-	
+
 	@GetMapping("/gett")
 	public String uploadFile() {
-
 
 		return "dddddd";
 	}
@@ -33,6 +36,11 @@ public class FileController {
 
 		return new FileUploadDTO(fileName, fileDownloadUri, file.getContentType(), file.getSize());
 
+	}
+
+	@PostMapping("/uploadMultipleFiles")
+	public List<FileUploadDTO> uploadFile(@RequestParam("files") MultipartFile[] files) {
+		return Arrays.asList(files).stream().map(file -> uploadFile(file)).collect(Collectors.toList());
 	}
 
 }
