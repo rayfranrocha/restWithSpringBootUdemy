@@ -34,3 +34,4 @@ blog/bin/
 **/*.iml
 **/.idea
 **/.gradle
+/.DS_Store
