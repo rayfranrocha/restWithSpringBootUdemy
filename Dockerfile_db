@@ -1,0 +1,6 @@
+FROM postgres:9.6
+LABEL maintainer="Rayfran Rocha"
+ENV POSTGRES_USER coloque_aqui_o_usuario
+ENV POSTGRES_PASSWORD coloque_aqui_a_senha
+ENV POSTGRES_DB coloque_aqui_DATABASE
+EXPOSE 5432

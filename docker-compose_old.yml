@@ -1,3 +1,5 @@
+#Este docker-compose não gera BUILD pois não faz uso de Dockfiles,
+# apenas de imagens pré-existentes
 version: '3'
 volumes: 
     dados:
@@ -6,26 +8,25 @@ networks:
         driver: bridge
 services: 
     db:
-        image: rayfranrocha/my_postgres9.6:1.0
-        restart: always
-        build:
-            context: .
-            dockerfile: Dockerfile_db
+        image: postgres:9.6
         environment: 
-            - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
-            - POSTGRES_DB=rest_with_springboot
         volumes:
             # Volume dos dados
             - dados:/var/lib/postgresql/data
+            # Scripts
+            - ./scripts:/scripts
+            - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+        expose: 
+            - 5432
         networks: 
             - my-network
     app:
-        image: rayfranrocha/app_rest_with_springboot:1.0
-        restart: always
-        build:
-            context: .
-            dockerfile: Dockerfile_app
+        image: maven:3.6.3-jdk-8
+        working_dir: /restWithSpringBootUdemy
+        environment: 
+            TZ: America/Sao_Paulo
+            SPRING_BOOT_ENVIRONMENT: Production
         volumes: 
             #expor local da aplicacao
             - .:/restWithSpringBootUdemy
