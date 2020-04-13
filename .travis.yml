@@ -1,0 +1,15 @@
+language: bash
+services: docker
+script:
+	- docker-compose build
+before_deploy:
+	- echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+deploy:
+	provider: script
+	script:
+		docker push rayfranrocha/my_postgres9.6:1.0;
+		docker push rayfranrocha/app_rest_with_springboot:1.0;
+	on:
+		branch: master
+notifications:
+	email: false
