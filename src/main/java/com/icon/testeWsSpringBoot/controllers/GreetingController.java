@@ -20,4 +20,9 @@ public class GreetingController {
 		return new Greeting(counter.incrementAndGet(), String.format(template, nome));
 	}
 
+	@RequestMapping("/")
+	public String sistemaNoAr() {
+		return "Sistema está no ar!";
+	}
+
 }
